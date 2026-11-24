@@ -1,57 +1,118 @@
 # To-do Ball 🫧
 
-A tiny crystal-blue to-do ball that floats in the corner of your Mac, on top of every app (fullscreen ones too). The number inside is how many tasks you have left today.
+A tiny crystal-blue to-do list that floats in the corner of your Mac as a little ball. It stays on top of every app, every desktop and even fullscreen windows. The number inside shows how many tasks you have left today. Click it to open your list.
 
-Built with plain **HTML, CSS and JavaScript**. Electron is used only to put that page in a see-through, always-on-top window.
+<p align="center">
+  <img src="screenshots/ball.png" alt="The floating ball showing 3 tasks left" width="180" />
+</p>
 
-| File | What it is |
+<p align="center">
+  <img src="screenshots/todo.png" alt="The to-do list grouped by work, life and study" width="320" />
+  &nbsp;&nbsp;
+  <img src="screenshots/completed.png" alt="The completed tab with ticked-off tasks" width="320" />
+</p>
+
+## Features
+
+- 🫧 **Floating ball** that stays on top of everything, with today's task count inside
+- 🐻 **A little mascot** sitting on the edge of the ball and the panel
+- 📅 **Daily and weekly lists**: switch between today's tasks and a list for the whole week (with a progress bar)
+- 🗂️ **Four tabs**: To-do, Pending, Completed and Cancelled
+- 🏷️ **Three categories**: work, study and life
+- ↷ **Push to tomorrow** (or next week) with one click
+- 🔁 **Unfinished tasks roll over** to the next day or week by themselves
+- 🖱️ **Drag the ball** anywhere, and it remembers where you left it
+- 🚀 **Opens at login** so it's always there
+- 💾 **Saves everything on your Mac**, with no account and no internet needed
+
+## Install (Mac)
+
+1. Download **To-do-Ball.zip** from the [Releases](../../releases) page and unzip it.
+2. Drag **To-do Ball.app** into your **Applications** folder.
+3. The app isn't signed by Apple, so macOS will block it the first time. Open **Terminal** and run:
+   ```bash
+   xattr -cr "/Applications/To-do Ball.app"
+   ```
+   Or open it, then go to **System Settings → Privacy & Security** and click **Open Anyway**.
+4. Open the app. The ball appears in the top-right corner.
+5. Right-click the ball and tick **Open at login**.
+
+> Works on Macs with Apple chips (M1, M2, M3 and later).
+
+## How to use it
+
+| Do this | To |
 |---|---|
-| `index.html` | the ball + the panel |
-| `style.css` | the crystal-blue look |
-| `app.js` | tasks, tabs, saving, dragging |
-| `mascot.png` | your little bear |
-| `main.js`, `preload.js` | the floating window (you rarely need to touch these) |
+| Click the ball | Open your list |
+| Click anywhere else, press **Esc**, or click **–** | Close it back into the ball |
+| Drag the ball or the top of the panel | Move it |
+| Right-click the ball | Open at login · Move back to corner · Quit |
+| **Daily / Weekly** switch | Swap between today's list and this week's list |
+| **‹ ›** next to the date | Go to other days or weeks (click the date to jump back) |
+| Type in the box at the bottom and press **Enter** | Add a task |
+| Pick **work / study / life** from the menu, or type `#study revise ch 4` | Choose the category |
+| Click the circle | Mark a task done |
+| Hover a task | `‖` pending · `↷` tomorrow / next week · `×` cancel · `↺` back to to-do · `⌫` delete |
+| Double-click a task | Edit it |
 
-## Run it
+The number on the ball counts **today's daily tasks** that are still in To-do or Pending.
 
-1. Install Node.js (LTS) from https://nodejs.org if you don't have it.
-2. Open Terminal in this folder and run:
+## Run from the code
+
+You need [Node.js](https://nodejs.org) (LTS).
 
 ```bash
+git clone https://github.com/amal-62/Floating-to-do-ball.git
+cd Floating-to-do-ball
 npm install
 npm start
 ```
 
-The ball appears in the top-right corner.
+<details>
+<summary>If you see "Electron failed to install correctly"</summary>
 
-## Using it
+Electron's download sometimes stops halfway. Download it by hand:
 
-- **Click the ball** to open the list. Click anywhere else, press **Esc**, or hit **–** to close it.
-- **Drag the ball** (or the date bar on the panel) to move it. It remembers where you left it.
-- **Daily / Weekly**: use the switch at the top. Daily is one day at a time. Weekly is its own list of things to get done that week, with a progress bar.
-- **Add a task**: type in the box at the bottom and press Enter. It goes into whichever view you're on. Pick work, study or life from the little menu, or type `#study revise chapter 4`.
-- **Tick the circle** to complete a task. Hover a task for more:
-  - `‖` move to Pending · `↷` push to tomorrow (or next week) · `×` cancel
-  - `↺` move back to To-do · `⌫` delete
-- **Double-click** a task to edit it.
-- **‹ ›** go to other days (or weeks). Click the date to jump back to now.
-- Unfinished tasks roll over automatically: daily ones to today, weekly ones to this week.
-- The number on the ball is how many of **today's daily tasks** are left.
-- **Right-click the ball** for: Open at login, Move back to corner, Quit.
+```bash
+cd node_modules/electron
+VER=$(node -p "require('./package.json').version")
+ARCH=$(uname -m | sed 's/x86_64/x64/')
+curl -L --fail -o electron.zip "https://github.com/electron/electron/releases/download/v$VER/electron-v$VER-darwin-$ARCH.zip"
+rm -rf dist && mkdir dist
+ditto -x -k electron.zip dist
+printf "Electron.app/Contents/MacOS/Electron" > path.txt
+rm electron.zip
+cd ../..
+npm start
+```
+</details>
 
-## Make it a real app (optional)
+## Build the app yourself
 
 ```bash
 npm run build
+cp -R dist/mac*/"To-do Ball.app" /Applications/
+xattr -cr "/Applications/To-do Ball.app"
+codesign --force --deep --sign - "/Applications/To-do Ball.app"
+open "/Applications/To-do Ball.app"
 ```
 
-This creates a `.dmg` in the `dist` folder. Drag **To-do Ball** into Applications. It isn't signed, so the first time you open it, right-click the app → **Open** → **Open**. Then turn on **Open at login** from the ball's right-click menu.
+## Built with
 
-## Customise
+Plain **HTML, CSS and JavaScript**, with **Electron** to make the window float above every app.
 
-- **Colours**: the variables at the top of `style.css` (`--glass-top`, `--glass-bottom`, `--ink`…).
-- **Ball size**: `#ball` width/height in `style.css`.
-- **Mascot**: replace `mascot.png` with any transparent PNG.
-- **Categories**: `CATS` in `app.js`, plus the options in `index.html`.
+| File | What it does |
+|---|---|
+| `index.html` | the ball and the panel |
+| `style.css` | the crystal-blue look, sizes and colours |
+| `app.js` | tasks, tabs, daily/weekly, saving and dragging |
+| `main.js` | the see-through floating window |
+| `preload.js` | connects the page to the window |
+| `mascot.png` | the little bear |
 
-Your tasks are saved on your Mac and stay there after you quit.
+## Make it yours
+
+- **Colours**: the variables at the top of `style.css` (`--glass-top`, `--glass-bottom`, `--ink`)
+- **Ball size**: `#ball` in `style.css`, and the `ball` window size in `main.js`
+- **Mascot**: swap `mascot.png` for any transparent PNG, and set its size with `.mascot-ball` and `.mascot-panel` in `style.css`
+- **Categories**: `CATS` in `app.js`, plus the options in `index.html`
