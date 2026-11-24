@@ -1,0 +1,244 @@
+/*sets all the colours in one place*/
+:root {
+  --glass-top: rgba(222, 239, 253, 0.80);
+  --glass-bottom: rgba(178, 214, 246, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.85);
+  --ink: #34557f;
+  --ink-soft: #5a7aa3;
+  --ink-faint: rgba(52, 85, 127, 0.45);
+  --accent: #2f7fd0;
+  --chip: rgba(255, 255, 255, 0.5);
+  --font: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+}
+
+/*clears default spacing on everything*/
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/*makes the window background see-through*/
+html, body {
+  width: 100%; height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font-family: var(--font);
+  color: var(--ink);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/*removes default button and input styling*/
+button, input, select { font: inherit; color: inherit; background: none; border: none; outline: none; }
+button { cursor: pointer; }
+
+/*hides the panel when the ball is showing*/
+body.mode-ball #panel-wrap { display: none; }
+/*hides the ball when the panel is showing*/
+body.mode-panel #ball-wrap { display: none; }
+
+/*holds the ball and the mascot*/
+#ball-wrap { position: absolute; inset: 0; }
+
+/*draws the crystal ball*/
+#ball {
+  position: absolute; top: 10px; right: 10px;
+  width: 50px; height: 50px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255,255,255,0.9) 0 8%, rgba(255,255,255,0) 24%),
+    radial-gradient(circle at 70% 80%, rgba(60,130,210,0.55), rgba(60,130,210,0) 60%),
+    linear-gradient(160deg, var(--glass-top), var(--glass-bottom));
+  border: 1.5px solid var(--glass-edge);
+  box-shadow:
+    inset 0 -6px 14px rgba(40, 100, 180, 0.45),
+    inset 0 4px 10px rgba(255, 255, 255, 0.6),
+    0 6px 16px rgba(30, 80, 150, 0.35);
+  transition: transform .18s ease;
+  animation: bob 4s ease-in-out infinite;
+}
+/*grows the ball a little on hover*/
+#ball:hover { transform: scale(1.06); }
+/*shrinks the ball a little when pressed*/
+#ball:active { transform: scale(0.97); }
+/*styles the number inside the ball*/
+#ball-count { font-size: 18px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+/*styles the word under the number*/
+#ball-label { font-size: 7px; font-weight: 600; color: var(--ink-soft); letter-spacing: 1px; margin-top: 2px; }
+/*shrinks the tick when everything is done*/
+#ball.done #ball-count { font-size: 16px; }
+
+/*makes the ball float up and down*/
+@keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -2px; } }
+
+/*stops the mascot from blocking clicks*/
+.mascot { position: absolute; pointer-events: none; filter: drop-shadow(0 2px 3px rgba(20,50,100,.3)); }
+/*places the mascot on the edge of the ball*/
+.mascot-ball { height: 40px; left: 20px; bottom: 8px; z-index: 2; animation: sway 5s ease-in-out infinite; transform-origin: bottom center; }
+/*places the mascot on the corner of the panel*/
+.mascot-panel { height: 92px; left: 2px; bottom: 2px; animation: sway 6s ease-in-out infinite; transform-origin: bottom center; }
+/*makes the mascot sway side to side*/
+@keyframes sway { 0%,100% { rotate: -3deg; } 50% { rotate: 3deg; } }
+
+/*holds the panel and the mascot*/
+#panel-wrap { position: absolute; inset: 0; }
+
+/*draws the glass panel*/
+#panel {
+  position: absolute; top: 8px; right: 8px; bottom: 30px; left: 26px;
+  display: flex; flex-direction: column;
+  border-radius: 26px;
+  background:
+    radial-gradient(120% 60% at 20% 0%, rgba(255,255,255,0.35), rgba(255,255,255,0) 60%),
+    linear-gradient(170deg, var(--glass-top), var(--glass-bottom));
+  border: 1.5px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    inset 0 -10px 30px rgba(50, 110, 190, 0.3),
+    0 10px 30px rgba(20, 60, 130, 0.35);
+  animation: pop .18s ease-out;
+  overflow: hidden;
+}
+/*makes the panel pop open*/
+@keyframes pop { from { opacity: 0; transform: scale(.94) translateY(-6px); } }
+
+/*styles the top row with the daily weekly switch*/
+#panel-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 14px 0 14px;
+  cursor: grab;
+}
+/*styles the daily weekly switch*/
+#view-switch {
+  display: flex; gap: 2px; padding: 3px;
+  background: rgba(52, 85, 127, 0.12); border-radius: 999px;
+}
+/*styles each side of the switch*/
+#view-switch button {
+  padding: 5px 14px; border-radius: 999px; font-size: 11px; font-weight: 600; color: var(--ink);
+  transition: background .15s, color .15s;
+}
+/*fills in the side you're on*/
+#view-switch button.active { background: var(--ink); color: #fff; font-weight: 700; }
+
+/*styles the row with the date*/
+#panel-head {
+  display: flex; align-items: center; gap: 4px;
+  padding: 8px 14px 4px;
+  cursor: grab;
+}
+/*changes the cursor while dragging*/
+#panel-top:active, #panel-head:active { cursor: grabbing; }
+/*styles the date*/
+#date-label {
+  flex: 1; text-align: center; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: var(--ink);
+  padding: 4px 0; border-radius: 8px;
+}
+/*styles the arrow and close buttons*/
+.nav {
+  width: 24px; height: 24px; border-radius: 50%;
+  font-size: 15px; font-weight: 700; line-height: 1; color: var(--ink);
+}
+/*highlights the arrow buttons on hover*/
+.nav:hover { background: var(--chip); }
+
+/*styles the weekly progress row*/
+#progress { display: flex; align-items: center; gap: 8px; padding: 2px 18px; }
+#progress[hidden] { display: none; }
+/*styles the progress bar track*/
+#progress-track { flex: 1; height: 5px; border-radius: 5px; background: rgba(52, 85, 127, 0.15); overflow: hidden; }
+/*styles the filled part of the progress bar*/
+#progress-fill { height: 100%; width: 0; background: var(--ink); border-radius: 5px; transition: width .25s ease; }
+/*styles the done count*/
+#progress-text { font-size: 10px; font-weight: 700; }
+
+/*styles the row of tabs*/
+#tabs {
+  display: flex; gap: 2px; margin: 6px 14px 4px; padding: 3px;
+  background: rgba(52, 85, 127, 0.12); border-radius: 12px;
+}
+/*styles each tab*/
+#tabs button {
+  flex: 1; padding: 6px 0; border-radius: 9px; font-size: 10.5px; font-weight: 600; color: var(--ink-soft);
+  transition: background .15s, color .15s;
+}
+/*darkens a tab on hover*/
+#tabs button:hover { color: var(--ink); }
+/*highlights the tab you're on*/
+#tabs button.active {
+  background: rgba(255,255,255,0.9); color: var(--ink);
+  box-shadow: 0 1px 4px rgba(20,60,130,0.25);
+}
+/*styles the small number on each tab*/
+#tabs .n { font-size: 9px; opacity: .7; margin-left: 2px; }
+
+/*makes the task list scroll*/
+#list { flex: 1; overflow-y: auto; padding: 8px 16px 8px 18px; }
+/*makes the scrollbar thin*/
+#list::-webkit-scrollbar { width: 5px; }
+#list::-webkit-scrollbar-thumb { background: var(--ink-faint); border-radius: 5px; }
+
+/*spaces out each category*/
+.group { margin-bottom: 10px; }
+/*styles the category name*/
+.group h3 { font-size: 12.5px; font-weight: 800; margin: 6px 0 4px; letter-spacing: .3px; }
+
+/*styles each task row*/
+.task {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 6px 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 500;
+}
+/*highlights a task on hover*/
+.task:hover { background: rgba(255,255,255,0.3); }
+/*styles the task text*/
+.task .text { flex: 1; line-height: 1.45; word-break: break-word; user-select: text; }
+/*styles the task text while editing*/
+.task .text[contenteditable="true"] { background: rgba(255,255,255,0.85); border-radius: 4px; padding: 0 3px; outline: none; }
+
+/*draws the tick circle*/
+.check {
+  flex: none; width: 14px; height: 14px; border-radius: 50%;
+  border: 1.5px solid var(--ink-soft); position: relative;
+}
+/*highlights the tick circle on hover*/
+.check:hover { border-color: var(--accent); background: rgba(47,127,208,0.2); }
+/*fills the circle for completed tasks*/
+.status-completed .check { background: var(--accent); border-color: var(--accent); }
+/*adds the tick mark for completed tasks*/
+.status-completed .check::after { content: "✓"; position: absolute; inset: 0; font-size: 9px; color: #fff; display: grid; place-items: center; }
+/*crosses out completed tasks*/
+.status-completed .text { text-decoration: line-through; color: var(--ink-soft); }
+/*crosses out cancelled tasks*/
+.status-cancelled .text { text-decoration: line-through; color: var(--ink-soft); opacity: .75; }
+/*makes the circle dashed for cancelled tasks*/
+.status-cancelled .check { border-style: dashed; }
+/*makes the circle orange for pending tasks*/
+.status-pending .check { border-color: #c9821f; }
+
+/*hides the task buttons until you hover*/
+.actions { display: flex; gap: 2px; opacity: 0; transition: opacity .12s; }
+/*shows the task buttons on hover*/
+.task:hover .actions { opacity: 1; }
+/*styles the small task buttons*/
+.actions button {
+  width: 20px; height: 20px; border-radius: 6px; font-size: 11px; font-weight: 700; color: var(--ink-soft);
+}
+/*highlights a task button on hover*/
+.actions button:hover { background: rgba(255,255,255,0.85); color: var(--ink); }
+
+/*styles the message when a tab is empty*/
+.empty { text-align: center; color: var(--ink-soft); font-size: 11.5px; font-weight: 600; margin-top: 50px; line-height: 1.8; }
+
+/*styles the add task bar*/
+#add {
+  display: flex; gap: 6px; align-items: center;
+  margin: 4px 12px 12px 24px; padding: 6px 8px;
+  background: rgba(255,255,255,0.6); border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.85);
+}
+/*styles the category picker*/
+#add-cat {
+  font-size: 10.5px; font-weight: 600; color: var(--ink); cursor: pointer;
+  max-width: 76px; padding: 2px 4px; border-radius: 6px; background: rgba(255,255,255,0.7);
+}
+/*styles the text box*/
+#add-text { flex: 1; font-size: 11.5px; min-width: 0; }
+/*styles the hint text in the box*/
+#add-text::placeholder { color: var(--ink-faint); }

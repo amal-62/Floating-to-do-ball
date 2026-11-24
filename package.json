@@ -1,0 +1,25 @@
+{
+  "name": "todo-ball",
+  "productName": "To-do Ball",
+  "version": "1.0.0",
+  "description": "A tiny floating crystal to-do ball for macOS",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac"
+  },
+  "devDependencies": {
+    "electron": "^39.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.todoball.app",
+    "productName": "To-do Ball",
+    "files": ["main.js", "preload.js", "index.html", "style.css", "app.js", "mascot.png"],
+    "mac": {
+      "target": ["dmg"],
+      "category": "public.app-category.productivity",
+      "extendInfo": { "LSUIElement": true }
+    }
+  }
+}

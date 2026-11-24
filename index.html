@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!--only lets the page load its own files-->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'" />
+  <title>to-do ball</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="mode-ball">
+
+  <!--shows the floating ball-->
+  <div id="ball-wrap">
+    <button id="ball" title="Click to open · drag to move · right-click for options">
+      <span id="ball-count">0</span>
+      <span id="ball-label">left</span>
+    </button>
+    <img class="mascot mascot-ball" src="mascot.png" alt="" draggable="false" />
+  </div>
+
+  <!--shows the open to-do panel-->
+  <div id="panel-wrap">
+    <section id="panel">
+
+      <!--switches between daily and weekly-->
+      <header id="panel-top">
+        <div id="view-switch">
+          <button data-view="daily" class="active">Daily</button>
+          <button data-view="weekly">Weekly</button>
+        </div>
+        <button class="nav" id="close" title="Close (Esc)">–</button>
+      </header>
+
+      <!--shows the date or week with arrows-->
+      <div id="panel-head">
+        <button class="nav" id="prev" title="Back">‹</button>
+        <button id="date-label" title="Back to now"></button>
+        <button class="nav" id="next" title="Forward">›</button>
+      </div>
+
+      <!--shows weekly progress-->
+      <div id="progress">
+        <div id="progress-track"><div id="progress-fill"></div></div>
+        <span id="progress-text"></span>
+      </div>
+
+      <!--shows the four status tabs-->
+      <nav id="tabs">
+        <button data-tab="todo" class="active">To-do</button>
+        <button data-tab="pending">Pending</button>
+        <button data-tab="completed">Completed</button>
+        <button data-tab="cancelled">Cancelled</button>
+      </nav>
+
+      <!--holds the tasks-->
+      <div id="list"></div>
+
+      <!--adds a new task-->
+      <form id="add">
+        <select id="add-cat" title="Category">
+          <option value="work">work</option>
+          <option value="study">study</option>
+          <option value="life">life</option>
+        </select>
+        <input id="add-text" autocomplete="off" />
+      </form>
+    </section>
+    <img class="mascot mascot-panel" src="mascot.png" alt="" draggable="false" />
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
