@@ -15,11 +15,24 @@
   "build": {
     "appId": "com.todoball.app",
     "productName": "To-do Ball",
-    "files": ["main.js", "preload.js", "index.html", "style.css", "app.js", "mascot.png"],
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "style.css",
+      "app.js",
+      "mascot.png"
+    ],
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dir"
+      ],
       "category": "public.app-category.productivity",
-      "extendInfo": { "LSUIElement": true }
-    }
+      "extendInfo": {
+        "LSUIElement": true
+      },
+      "identity": null
+    },
+    "electronDist": "node_modules/electron/dist"
   }
 }

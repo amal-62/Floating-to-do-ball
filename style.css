@@ -1,7 +1,7 @@
 /*sets all the colours in one place*/
 :root {
-  --glass-top: rgba(222, 239, 253, 0.80);
-  --glass-bottom: rgba(178, 214, 246, 0.72);
+  --glass-top: rgba(222, 239, 253, 0.93);
+  --glass-bottom: rgba(178, 214, 246, 0.90);
   --glass-edge: rgba(255, 255, 255, 0.85);
   --ink: #34557f;
   --ink-soft: #5a7aa3;
@@ -39,7 +39,7 @@ body.mode-panel #ball-wrap { display: none; }
 
 /*draws the crystal ball*/
 #ball {
-  position: absolute; top: 10px; right: 10px;
+  position: absolute; top: 7px; right: 7px;
   width: 50px; height: 50px; border-radius: 50%;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   background:
@@ -61,7 +61,7 @@ body.mode-panel #ball-wrap { display: none; }
 /*styles the number inside the ball*/
 #ball-count { font-size: 18px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
 /*styles the word under the number*/
-#ball-label { font-size: 7px; font-weight: 600; color: var(--ink-soft); letter-spacing: 1px; margin-top: 2px; }
+#ball-label { font-size: 7px; font-weight: 600; color: var(--ink-soft); letter-spacing: 1px; margin-top: 1px; }
 /*shrinks the tick when everything is done*/
 #ball.done #ball-count { font-size: 16px; }
 
